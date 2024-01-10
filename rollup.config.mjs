@@ -27,17 +27,6 @@ export default {
       name: "markdownitExample",
       plugins: [terser()],
       sourcemap: true
-    },
-    {
-      file: "dist/index.esm.js",
-      format: "esm",
-      sourcemap: true
-    },
-    {
-      file: "dist/index.esm.min.js",
-      format: "esm", // ES Modules
-      plugins: [terser()],
-      sourcemap: true
     }
   ]
 }

@@ -22,8 +22,7 @@
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "style": "./dist/css/style.min.css"
+      "import": "./dist/esm/index.js"
     }
   },
   "scripts": {
@@ -31,13 +30,11 @@
     "format": "bunx @biomejs/biome format **/*.ts --write",
     "lint": "oxlint **/*.ts --fix",
     "test": "jest",
-    "test:watch": "jest --watchAll",
-    "test:cov": "jest --coverage",
     "build:bundles": "rollup -c",
-    "build:esm": "tsc --module es2015   --outDir dist/esm",
+    "build:esm": "bun build ./src/index.ts --outdir ./dist/esm --format esm --sourcemap=none",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "declarations": "tsc --declaration --emitDeclarationOnly --outDir dist/types",
-    "build": "npm-run-all -l clean -p build:cjs build:esm build:bundles declarations",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:bundles && npm run declarations",
     "build:watch": "rollup -c -w; npm run sass -w",
     "prepublishOnly": "npm run build"
   },
