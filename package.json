@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-plugin-gitbook",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A markdown-it plugin to recognize gitbook blocks",
   "author": "erguotou",
   "homepage": "https://github.com/erguotou520/markdown-it-plugin-gitbook",
@@ -11,6 +11,7 @@
     "markdown-it-plugin",
     "gitbook"
   ],
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "unpkg": "dist/index.umd.min.js",
