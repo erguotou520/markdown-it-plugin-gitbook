@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import ParserBlock from 'markdown-it/lib/parser_block'
+
 /**
  * An gitbook syntax plugin for markdown-it.
  */
@@ -47,6 +48,11 @@ export default function GitbookSyntaxPlugin(md: MarkdownIt): void {
         break
       }
 
+      // embed end look-down should not over 2 lines
+      if (nextLine - startLine > 1) {
+        break
+      }
+
       nextLine++
 
       if (nextLine >= endLine) {
@@ -87,9 +93,6 @@ export default function GitbookSyntaxPlugin(md: MarkdownIt): void {
       // found!
       haveBlockEndMarker = true
     }
-
-    // If embed block has heading spaces, they should be removed from its inner block
-    const len = state.tShift[startLine]
 
     state.line = haveBlockEndMarker ? nextLine + 1 : haveLineEndMarker ? startLine + 1 : startLine + 1
 
