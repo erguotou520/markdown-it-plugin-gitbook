@@ -4,7 +4,7 @@ import ParserBlock from 'markdown-it/lib/parser_block'
 /**
  * An gitbook syntax plugin for markdown-it.
  */
-export default function GitbookSyntaxPlugin(md: MarkdownIt): void {
+export default function GitbookSyntaxPlugin(md: MarkdownIt, options?: { embedUrls?: Record<string, string> | (url: string) => string }): void {
   const open = '{% embed'
   const lineClose = '%}'
   const blockClose = '{% endembed %}'
@@ -116,9 +116,18 @@ export default function GitbookSyntaxPlugin(md: MarkdownIt): void {
   md.renderer.rules.embed = (tokens, idx) => {
     const token = tokens[idx]
     const { url, caption } = token.meta
+    let iframeUrl = url
+    const embedUrls = options?.embedUrls
+    if (embedUrls) {
+      if (typeof embedUrls === 'function') {
+        iframeUrl = embedUrls(url)
+      } else {
+        iframeUrl = embedUrls[url]
+      }
+    }
     return `<figure class="gitbook-embed${
       caption ? ' with-caption' : ''
-    }">\n  <iframe src="${url}"${caption ? ` alt="${caption}"` : ''} style="padding:16px 0;width:100%;max-with:100%;border:none;"></iframe>\n${
+    }">\n  <iframe src="${iframeUrl || url}"${caption ? ` alt="${caption}"` : ''} style="padding:16px 0;width:100%;max-with:100%;border:none;"></iframe>\n${
       caption
         ? `  <figcaption style="padding-top:8px;color:#8899a8;font-size:12px;text-align:center;">${caption}</figcaption>\n`
         : ''

@@ -28,7 +28,14 @@ const markdownIt = require('markdown-it');
 const markdownItGitBook = require('markdown-it-plugin-gitbook');
 
 const md = markdownIt();
-md.use(markdownItGitBook);
+md.use(markdownItGitBook, {
+   // embedUrls: { 'url': 'https://example.com/real/url' }
+   embedUrls: (url) => {
+      // Replace this to get real video player url instead of website url
+      // This function does not support async call as markdown-it not support async
+      return url
+   }
+});
 
 const markdown = `Your GitBook content with embed blocks`;
 const result = md.render(markdown);
