@@ -4,7 +4,7 @@ import ParserBlock from 'markdown-it/lib/parser_block'
 /**
  * An gitbook syntax plugin for markdown-it.
  */
-export default function GitbookSyntaxPlugin(md: MarkdownIt, options?: { embedUrls?: Record<string, string> | (url: string) => string }): void {
+export default function GitbookSyntaxPlugin(md: MarkdownIt, options?: { embedUrls?: (Record<string, string>) | ((url: string) => string) }): void {
   const open = '{% embed'
   const lineClose = '%}'
   const blockClose = '{% endembed %}'
