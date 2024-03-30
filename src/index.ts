@@ -116,7 +116,7 @@ export default function GitbookSyntaxPlugin(md: MarkdownIt, options?: { embedUrl
   md.renderer.rules.embed = (tokens, idx) => {
     const token = tokens[idx]
     const { url, caption } = token.meta
-    let iframeUrl = url
+    let iframeUrl: string = url
     const embedUrls = options?.embedUrls
     if (embedUrls) {
       if (typeof embedUrls === 'function') {
@@ -125,9 +125,13 @@ export default function GitbookSyntaxPlugin(md: MarkdownIt, options?: { embedUrl
         iframeUrl = embedUrls[url]
       }
     }
+    // support html/url format
+    if (!(iframeUrl.startsWith('<') && iframeUrl.endsWith('>'))) {
+      iframeUrl = `<iframe src="${iframeUrl || url}"${caption ? ` alt="${caption}"` : ''} style="padding:16px 0;width:100%;max-with:100%;border:none;"></iframe>`
+    }
     return `<figure class="gitbook-embed${
       caption ? ' with-caption' : ''
-    }">\n  <iframe src="${iframeUrl || url}"${caption ? ` alt="${caption}"` : ''} style="padding:16px 0;width:100%;max-with:100%;border:none;"></iframe>\n${
+    }">\n${iframeUrl}  \n${
       caption
         ? `  <figcaption style="padding-top:8px;color:#8899a8;font-size:12px;text-align:center;">${caption}</figcaption>\n`
         : ''
