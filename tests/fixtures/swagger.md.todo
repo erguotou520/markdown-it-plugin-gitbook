@@ -1,0 +1,19 @@
+# Swagger test
+
+.
+
+{% swagger method="get" path="health" baseUrl="http://127.0.0.1:9992/" summary="健康检查接口" %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-response status="200: OK" description="" %}
+```json
+{
+    "status": "ok"
+}
+```
+{% endswagger-response %}
+{% endswagger %}
+
+.
